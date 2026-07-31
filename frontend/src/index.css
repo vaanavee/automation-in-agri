@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --bg-light: #f8fafc;
+  --text-dark: #1e293b;
+  --card-light: #ffffff;
+}
+
+@theme {
+  --color-primary: var(--primary-green);
+  --color-primary-dark: var(--dark-green);
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border-radius: 1rem;
+}
