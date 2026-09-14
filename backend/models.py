@@ -8,8 +8,8 @@ class Plantation(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     farmer_id = Column(Integer, ForeignKey("farmers.id"))
-    direction = Column(String)
-    acres = Column(Float)
+    zone_name = Column(String)
+    area = Column(Float)
     crop_type = Column(String)
     
     farmer = relationship("Farmer", back_populates="plantations")

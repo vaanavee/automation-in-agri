@@ -81,11 +81,21 @@ export default function Settings() {
                 <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                    <input type="text" defaultValue="Ramesh Kumar" className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                    <input type="text" defaultValue={
+                      (() => {
+                        const u = localStorage.getItem('user');
+                        return u ? JSON.parse(u).farmerName : '';
+                      })()
+                    } className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input type="email" defaultValue="ramesh@example.com" className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none" />
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+                    <input type="tel" defaultValue={
+                      (() => {
+                        const u = localStorage.getItem('user');
+                        return u ? JSON.parse(u).mobileNumber || '' : '';
+                      })()
+                    } className="w-full border border-gray-300 rounded-xl p-3 focus:ring-2 focus:ring-green-500 focus:outline-none" />
                   </div>
                   <button className="bg-green-600 text-white px-6 py-2 rounded-xl font-bold hover:bg-green-700 transition-colors">Save Changes</button>
                 </form>

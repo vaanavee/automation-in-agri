@@ -11,10 +11,43 @@ export default function Login() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Dummy login, navigate to dashboard
-    navigate('/dashboard');
+    setError('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:8000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mobileNumber: phone,
+          password: password
+        })
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonErr) {
+        data = { detail: 'Invalid server response' };
+      }
+
+      if (response.ok) {
+        localStorage.setItem('user', JSON.stringify(data.farmer));
+        navigate('/dashboard');
+      } else {
+        setError(typeof data.detail === 'string' ? data.detail : 'Login failed');
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError('Network error. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -49,6 +82,11 @@ export default function Login() {
           className="bg-white py-8 px-4 shadow-xl border border-gray-100 sm:rounded-2xl sm:px-10"
         >
           <form className="space-y-6" onSubmit={handleLogin}>
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+                {error}
+              </div>
+            )}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 {t('mobile_number')}
@@ -97,9 +135,10 @@ export default function Login() {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+                disabled={isLoading}
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors disabled:opacity-50"
               >
-                {t('sign_in_btn')}
+                {isLoading ? 'Signing in...' : (t('sign_in_btn') || 'Sign in')}
               </button>
             </div>
           </form>

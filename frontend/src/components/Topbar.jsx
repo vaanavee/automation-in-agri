@@ -26,7 +26,15 @@ export default function Topbar() {
         <div className="flex items-center gap-3 cursor-pointer p-1 pr-3 rounded-full hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
           <MdAccountCircle size={36} className="text-gray-400" />
           <div className="hidden md:block">
-            <p className="text-sm font-semibold text-gray-700">Ramesh Kumar</p>
+            <p className="text-sm font-semibold text-gray-700">
+              {(() => {
+                const userStr = localStorage.getItem('user');
+                if (userStr) {
+                  try { return JSON.parse(userStr).farmerName; } catch(e) {}
+                }
+                return 'Account Holder';
+              })()}
+            </p>
             <p className="text-xs text-gray-500">Premium Member</p>
           </div>
         </div>

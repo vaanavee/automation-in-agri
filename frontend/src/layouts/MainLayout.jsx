@@ -2,6 +2,7 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
+import NotificationBar from '../components/NotificationBar';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MainLayout() {
@@ -11,6 +12,7 @@ export default function MainLayout() {
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <NotificationBar />
         <Topbar />
         
         {/* Main Content Area */}
